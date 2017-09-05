@@ -3,10 +3,11 @@ namespace Kohana;
 
 use \Kohana_Exception as Kohana_Exception;
 use \Config_Group as Config_Group;
-use \Config_Source as Config_Source;
-use \Config_Reader as Config_Reader;
-use \Config_Writer as Config_Writer;
 use \Arr as Arr;
+
+use \Kohana\Config\IReader as IReader;
+use \Kohana\Config\ISource as ISource;
+use \Kohana\Config\IWriter as IWriter;
 
 /**
  * Wrapper for configuration arrays. Multiple configuration readers can be
@@ -45,7 +46,7 @@ class Config
      * @param   boolean $first add the reader as the first used object
      * @return  $this
      */
-    public function attach(Config\Source $source, $first = true)
+    public function attach(ISource $source, $first = true)
     {
         if ($first === true) {
             // Place the log reader at the top of the stack
@@ -66,10 +67,10 @@ class Config
      *
      *     $config->detach($reader);
      *
-     * @param   Kohana_Config_Source $source instance
+     * @param   ISource $source instance
      * @return  $this
      */
-    public function detach(Config\Source $source)
+    public function detach(ISource $source)
     {
         if (($key = array_search($source, $this->_sources)) !== false) {
             // Remove the writer
@@ -89,7 +90,7 @@ class Config
      * See [Kohana_Config_Group] for more info
      *
      * @param   string $group configuration group name
-     * @return  Kohana_Config_Group
+     * @return  Config\Group
      * @throws  Kohana_Exception
      */
     public function load($group)
@@ -125,7 +126,7 @@ class Config
         $sources = array_reverse($this->_sources);
 
         foreach ($sources as $source) {
-            if ($source instanceof Config\Reader) {
+            if ($source instanceof IReader) {
                 if ($source_config = $source->load($group)) {
                     $config = Arr::merge($config, $source_config);
                 }
@@ -172,7 +173,7 @@ class Config
     public function _write_config($group, $key, $value)
     {
         foreach ($this->_sources as $source) {
-            if (!($source instanceof Kohana_Config_Writer)) {
+            if (!($source instanceof IWriter)) {
                 continue;
             }
 
