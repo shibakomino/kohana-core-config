@@ -1,6 +1,13 @@
 <?php
+use \Kohana\HTTP\Header as Header;
 
-//Kohana_HTTP_Header load Kohana::$config->load('mimes.'.$type) into HTTP_Header::mime ;
+$config = new Config();
+$config->attach(new Config_File());
 
-//Text :: browsers = Kohana::$config->load('user_agents')->browser;
+$mimes = $config->load('mimes');
+$userAgents = $config->load('user_agents');
+
+Header::$mimes = $mimes;
+Text::$browsers = $userAgents->get('browser');
+
 //Text::group = Kohana::$config->load('user_agents')->$value
