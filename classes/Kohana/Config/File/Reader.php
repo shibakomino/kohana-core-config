@@ -1,4 +1,10 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
+namespace Kohana\Config\File;
+
+use \Kohana\Config\IReader as IReader;
+use \Kohana as Kohana;
+use \Arr as Arr;
+
 /**
  * File-based configuration reader. Multiple configuration directories can be
  * used by attaching multiple instances of this class to [Kohana_Config].
@@ -9,7 +15,7 @@
  * @copyright  (c) 2009-2012 Kohana Team
  * @license    http://kohanaframework.org/license
  */
-class Kohana_Config_File_Reader implements Kohana_Config_Reader {
+class Reader implements IReader {
 
 	/**
 	 * The directory where config files are located

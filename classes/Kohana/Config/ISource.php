@@ -1,4 +1,7 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
+
+namespace Kohana\Config;
+
 /**
  * Base Config source Interface
  *
@@ -11,4 +14,6 @@
  * @license    http://kohanaframework.org/license
  */
 
-interface Kohana_Config_Source {}
+interface ISource
+{
+}
